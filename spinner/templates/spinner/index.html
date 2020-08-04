@@ -1,0 +1,398 @@
+{% load static %}
+<html lang="en">
+<head>
+    <title>Win Wheel Instagram (GIVEAWAYS)</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand w-25" href="/">Win Wheel Instagram</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0 w-100">
+            <input class="form-control mr-sm-2 w-50" type="search" name="q"
+                   placeholder="https://www.instagram.com/p/NeedThisShortCode/" aria-label="Search">
+            <button class="btn btn-warning text-danger font-weight-bolder my-2 my-sm-0 w-25" type="submit">Turn the wheel</button>
+        </form>
+    </div>
+</nav>
+
+{% if not_search %}
+    <div class="container">
+    <div class="row">
+        <h1>Welcome to the wheel of win for <span class="text-primary font-weight-bolder">Instagram</span> GIVEAWAYS!!</h1>
+
+        <h5>Short code is the end of the url for the post you want to use, like:
+            <br><a href="" class="card-link">https://www.instagram.com/p/<span class="text-danger">NeedThisShortCode</span>/</a>
+            <br>The red color is the part we want so we can work and do the magic ;)</h5>
+        <br>
+        <br>
+        <h2 class="mt-5 pt-5">Put in the input up the short code for the post you want, and wait ...
+        <p class="text-primary bg-warning"><span>Note:</span> it may take a while depends on the number of comment on that post.</p></h2>
+    </div>
+    </div>
+
+{% else %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card w-100">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="/static/download/{{ post_info.username }}.jpg" height="100"
+                                     class="card-img-top"
+                                     alt="{{ post_info.username }}">
+                            </div>
+                            <div class="col-10">
+                                <h5 class="card-title">Post Owner: {{ post_info.username }}</h5>
+                                <h5 class="card-title">Post Owner Screen Name: {{ post_info.screen_name }}</h5>
+                                <p class="card-text">{{ post_info.text|safe }}</p>
+                                <a href="https://www.instagram.com/p/{{ request.GET.q }}/" target="_blank" class="btn btn-primary">Go the Post</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-2">
+                <div class="power_controls">
+                    <table class="table power">
+                        <th>Power</th>
+                        <tr>
+                            <td id="pw3" onClick="powerSelected(3);">
+                                High
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="pw2" onClick="powerSelected(2);">
+                                Med
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="pw1" onClick="powerSelected(1);">
+                                Low
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <img id="spin_button" src="{% static 'images/spin_off.png' %}" alt="Spin"
+                         onClick="startSpin();"/>
+                    <br>
+                    Removed duplication = {{ duplication }}
+                </div>
+            </div>
+            <div class="col-10">
+            <span class="fi-xwldx5-caret-solid mx-auto d-table">
+                <img id="prizePointer" style="position:relative;z-index: 100;"
+                     src="{% static 'images/basic_pointer.png' %}" alt="V"/>
+            </span>
+                <canvas class="w-100" style="margin-top: -34px;position:relative;z-index: 99" id="canvas"
+                        width="800" height="800" onclick="startSpin()"
+                        data-responsiveMinWidth="180" data-responsiveScaleHeight="true"
+                        data-responsiveMargin="50">
+                    <p style="color: white;">
+                        Sorry, your browser doesn't support canvas. Please try another.
+                    </p>
+
+                </canvas>
+                <div data-v-78fb99d2="" id="instructionsLayer" style="font-size: 52px; z-index: 101"
+                     onclick="startSpin()">
+                    <div data-v-78fb99d2="" id="topInstruction" class="instructionsText"
+                         style="padding-top: 10%;z-index: 101;">
+                        <div aria-label="Tap to spin" style="position: relative; height: 2.37345em;">
+                            <span
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.335556em) rotate(-30.2015deg); transform-origin: center 6.62222em 0px;">T</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.338333em) rotate(-22.6635deg); transform-origin: center 6.62222em 0px;">a</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(-15.1473deg); transform-origin: center 6.62222em 0px;">p</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(-9.55137deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.221944em) rotate(-5.20447deg); transform-origin: center 6.62222em 0px;">t</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(1.00982deg); transform-origin: center 6.62222em 0px;">o</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(6.60579deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.305556em) rotate(11.8879deg); transform-origin: center 6.62222em 0px;">s</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(19.0375deg); transform-origin: center 6.62222em 0px;">p</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166389em) rotate(24.6304deg); transform-origin: center 6.62222em 0px;">i</span>
+                            <span
+                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(30.2232deg); transform-origin: center 6.62222em 0px;">n</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pyro" id='canvasFireworks' style="display: none">
+            <div class="before"></div>
+            <div class="after"></div>
+            <div class="before"></div>
+            <div class="after"></div>
+            <div class="before"></div>
+            <div class="after"></div>
+            <div class="before"></div>
+            <div class="after"></div>
+            <div class="before"></div>
+            <div class="after"></div>
+            <div class="before"></div>
+            <div class="after"></div>
+        </div>
+        <canvas id="canvasConfetti" style="display: none"></canvas>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="pickedNameShow" tabindex="-1" role="dialog" aria-labelledby="pickedNameShow"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pickedNameShowLabel"><span class="text-danger">AAAAAND THHHHE WINNNNNER IS!!!</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modalBody" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
+                    <button type="button" class="btn btn-primary" id="resetWheel">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<script defer src="https://friconix.com/cdn/friconix.js"></script>
+<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'js/winwheel.min.js' %}"></script>
+<script src="{% static 'js/TweenMax.min.js' %}"></script>
+<script src="{% static 'js/confetti.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script>
+    const canvasEl = document.querySelector('#canvasConfetti');
+    const w = canvasEl.width = window.innerWidth;
+    const h = canvasEl.height = window.innerHeight * 2;
+
+    let wheelWinner = null;
+    let pw1 = $("#pw1"), pw2 = $("#pw2"), pw3 = $("#pw3")
+    let spinButton = $('#spin_button')
+    let pickedNameModal = $('#pickedNameShow')
+    let canvasConfetti = $('#canvasConfetti')
+    let canvasFireworks = $('#canvasFireworks')
+    let instructionsLayer = $('#instructionsLayer')
+
+    let wheelPower = 0;
+    let wheelSpinning = false;
+
+    let audio = new Audio("{% static 'sound/tick.mp3' %}");
+</script>
+<script>
+    function rgbToYIQ({r, g, b}) {
+        return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    }
+
+    function hexToRgb(hex) {
+        if (!hex || hex === undefined || hex === '') {
+            return undefined;
+        }
+
+        const result =
+            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : undefined;
+    }
+
+    function contrast(colorHex, threshold = 128) {
+        if (colorHex === undefined) {
+            return '#000';
+        }
+
+        const rgb = hexToRgb(colorHex);
+
+        if (rgb === undefined) {
+            return '#000';
+        }
+
+        return rgbToYIQ(rgb) >= threshold ? '#000' : '#fff';
+    }
+
+    let colors = ['#009925', '#3369e8', '#eeb211', '#d50f25']
+
+    function pickColor(index) {
+        return colors[index % 4];
+    }
+</script>
+<script>
+    let theWheel = new Winwheel({
+        'numSegments': "{{ count }}",
+        'outerRadius': 400,
+        'innerRadius': 100,
+        'textFontSize': parseInt({{ count }}) < 30 ? 24 : 12,
+        'lineWidth': 2,
+        'textAlignment': 'outer',
+        'textMargin': 20,
+        'textOrientation': 'horizontal',
+        'segments':
+            [
+                {% for name in username %}
+                    {
+                        'textFillStyle': contrast(pickColor({{ forloop.counter0 }})),
+                        'fillStyle': pickColor({{ forloop.counter0 }}),
+                        'text': "{{ name }}"
+                    },
+                {% endfor %}
+            ],
+        'animation':
+            {
+                'type': 'spinToStop',
+                'duration': 15,
+                'spins': 8,
+                'soundTrigger': 'pin',
+                'callbackSound': playSound,
+                'callbackFinished': alertPrize,
+            },
+        'pointerGuide': {
+            'display': true,
+            'strokeStyle': 'red',
+            'lineWidth': 3
+        },
+        'pins':
+            {
+                'number': 6
+            }
+    });
+
+
+    function playSound() {
+        // Stop and rewind the sound if it already happens to be playing.
+        audio.pause();
+        audio.currentTime = 0;
+
+        // Play the sound.
+        audio.play();
+    }
+
+    function alertPrize(indicatedSegment) {
+
+        let winningSegmentNumber = theWheel.getIndicatedSegmentNumber();
+
+        // Loop and set fillStyle of all segments to gray.
+        for (let x = 1; x < theWheel.segments.length; x++) {
+            theWheel.segments[x].fillStyle = 'gray';
+            theWheel.segments[x].textFillStyle = 'black';
+        }
+
+        // Make the winning one yellow.
+        theWheel.segments[winningSegmentNumber].fillStyle = 'yellow';
+
+        // Call draw function to render changes.
+        theWheel.draw();
+        wheelWinner = theWheel.segments[winningSegmentNumber].text
+        pickedNameModal.modal('toggle')
+        canvasConfetti.toggle()
+        canvasFireworks.toggle()
+    }
+
+    pickedNameModal.on('show.bs.modal', function (e) {
+        $("#modalBody").text(`The winner is ${wheelWinner}`);
+    })
+    pickedNameModal.on('hide.bs.modal', function (e) {
+        canvasConfetti.toggle();
+        canvasFireworks.toggle();
+    })
+
+
+    function powerSelected(powerLevel) {
+        if (wheelSpinning === false) {
+            pw1.removeClass();
+            pw2.removeClass();
+            pw3.removeClass();
+
+            if (powerLevel >= 1) {
+                pw1.addClass('pw1');
+            }
+            if (powerLevel >= 2) {
+                pw2.addClass('pw2');
+            }
+            if (powerLevel >= 3) {
+                pw3.addClass('pw3');
+            }
+            wheelPower = powerLevel;
+            spinButton.attr('src', "{% static 'images/spin_on.png' %}")
+            spinButton.addClass('clickable');
+        }
+    }
+
+    function startSpin() {
+        pickedNameModal.modal('hide');
+        instructionsLayer.css('display', 'none');
+        if (wheelSpinning === false) {
+            if (wheelPower === 1) {
+                theWheel.animation.spins = 3;
+            } else if (wheelPower === 2) {
+                theWheel.animation.spins = 8;
+            } else if (wheelPower === 3) {
+                theWheel.animation.spins = 15;
+            } else {
+                pw1.addClass('pw1');
+                theWheel.animation.spins = 3;
+            }
+            spinButton.attr('src', "{% static 'images/spin_off.png' %}");
+            spinButton.removeClass()
+
+            theWheel.startAnimation();
+            wheelSpinning = true;
+        }
+    }
+
+    // -------------------------------------------------------
+    // Function for reset button.
+    // -------------------------------------------------------
+    function resetWheel() {
+        theWheel.stopAnimation(false);
+        theWheel.rotationAngle = 0;
+        {% for name in username %}
+            theWheel.segments[{{ forloop.counter }}].fillStyle = pickColor({{ forloop.counter0 }});
+            theWheel.segments[{{ forloop.counter }}].textFillStyle = contrast(pickColor({{ forloop.counter0 }}));
+        {% endfor %}
+        theWheel.draw();
+
+        canvasConfetti.toggle();
+        canvasFireworks.toggle();
+        pw1.removeClass();
+        pw2.removeClass();
+        pw3.removeClass();
+        pickedNameModal.modal('hide');
+
+        wheelSpinning = false;
+    }
+
+    function closeModal() {
+        canvasConfetti.toggle();
+        canvasFireworks.toggle();
+        pickedNameModal.modal('hide');
+    }
+
+    $("#resetWheel").on('click', resetWheel)
+    $("#closeModal").on('click', closeModal)
+</script>
+</body>
+</html>
