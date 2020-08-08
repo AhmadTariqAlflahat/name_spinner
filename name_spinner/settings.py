@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'spinner',
 ]
 
@@ -126,3 +127,12 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# BROKER_URL = 'message_broker://user:password@hostname:port/virtual_host'
+# message_broker --> rabbitmq = amqp
+BROKER_URL = 'amqp://new_user:1q2w3e@localhost:5672/myvhost'
+# List of modules to import when celery starts.
+CELERY_IMPORTS = ("testcele.tasks",)
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_RESULT_BACKEND = "database"
+CELERY_RESULT_DBURI = "mysql://mydb_user:mydb_password@localhost/celery"

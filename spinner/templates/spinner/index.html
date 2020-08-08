@@ -15,30 +15,46 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline my-2 my-lg-0 w-100">
-            <input class="form-control mr-sm-2 w-50" type="search" name="q"
+            <input id="Search" class="form-control mr-sm-2 w-50" type="search" name="q"
                    placeholder="https://www.instagram.com/p/NeedThisShortCode/" aria-label="Search">
-            <button class="btn btn-warning text-danger font-weight-bolder my-2 my-sm-0 w-25" type="submit">Turn the wheel</button>
+            <button class="btn btn-warning text-danger font-weight-bolder my-2 my-sm-0 w-25"
+                    onclick="search()" type="submit">Turn the
+                wheel
+            </button>
         </form>
     </div>
 </nav>
 
 {% if not_search %}
     <div class="container">
-    <div class="row">
-        <h1>Welcome to the wheel of win for <span class="text-primary font-weight-bolder">Instagram</span> GIVEAWAYS!!</h1>
+        <div class="row">
+            <div class="col-12 progress p-0 m-0">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                     aria-valuemax="100">25%
+                </div>
+            </div>
+            <div class='progress-wrapper'>
+                <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
+            </div>
+            <div id="progress-bar-message">Waiting for progress to start...</div>
+            <div id="celery-result"></div>
+            <h1>Welcome to the wheel of win for <span class="text-primary font-weight-bolder">Instagram</span>
+                GIVEAWAYS!!</h1>
 
-        <h5>Short code is the end of the url for the post you want to use, like:
-            <br><a href="" class="card-link">https://www.instagram.com/p/<span class="text-danger">NeedThisShortCode</span>/</a>
-            <br>The red color is the part we want so we can work and do the magic ;)</h5>
-        <br>
-        <br>
-        <h2 class="mt-5 pt-5">Put in the input up the short code for the post you want, and wait ...
-        <p class="text-primary bg-warning"><span>Note:</span> it may take a while depends on the number of comment on that post.</p></h2>
-    </div>
+            <h5>Short code is the end of the url for the post you want to use, like:
+                <br><a href="" class="card-link">https://www.instagram.com/p/<span
+                        class="text-danger">NeedThisShortCode</span>/</a>
+                <br>The red color is the part we want so we can work and do the magic ;)</h5>
+            <br>
+            <br>
+            <h2 class="mt-5 pt-5">Put in the input up the short code for the post you want, and wait ...
+                <p class="text-primary bg-warning"><span>Note:</span> it may take a while depends on the number of
+                    comment on that post.</p></h2>
+        </div>
     </div>
 
 {% else %}
-    <div class="container">
+    <div class="container p-2 p-md-0">
         <div class="row">
             <div class="col-12">
                 <div class="card w-100">
@@ -54,42 +70,51 @@
                                 <h5 class="card-title">Post Owner: {{ post_info.username }}</h5>
                                 <h5 class="card-title">Post Owner Screen Name: {{ post_info.screen_name }}</h5>
                                 <p class="card-text">{{ post_info.text|safe }}</p>
-                                <a href="https://www.instagram.com/p/{{ request.GET.q }}/" target="_blank" class="btn btn-primary">Go the Post</a>
+                                <a href="https://www.instagram.com/p/{{ request.GET.q }}/" target="_blank"
+                                   class="btn btn-primary">Go the Post</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row mt-3">
-            <div class="col-2">
-                <div class="power_controls">
-                    <table class="table power">
-                        <th>Power</th>
-                        <tr>
-                            <td id="pw3" onClick="powerSelected(3);">
-                                High
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="pw2" onClick="powerSelected(2);">
-                                Med
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="pw1" onClick="powerSelected(1);">
-                                Low
-                            </td>
-                        </tr>
-                    </table>
-                    <br/>
-                    <img id="spin_button" src="{% static 'images/spin_off.png' %}" alt="Spin"
+            <div class="col-12 col-md-3">
+                <div class="power_controls mx-auto">
+                    <h3>Power</h3>
+                    <div class="row mb-2">
+                        <div id="pw3"
+                             class="col-4 col-md-12 order-last order-md-first p-4 clickable bg-secondary text-white font-weight-bolder"
+                             onClick="powerSelected(3);">
+                            High
+                        </div>
+                        <div id="pw2"
+                             class="col-4 col-md-12 p-4 clickable bg-secondary text-white font-weight-bolder"
+                             onClick="powerSelected(2);">
+                            Med
+                        </div>
+                        <div id="pw1"
+                             class="col-4 col-md-12 order-first order-md-last p-4 clickable bg-secondary pw1 text-dark font-weight-bolder"
+                             onClick="powerSelected(1);">
+                            Low
+                        </div>
+                    </div>
+                    <img id="spin_button" class="d-block mx-auto mb-2" src="{% static 'images/spin_off.png' %}"
+                         alt="Spin"
                          onClick="startSpin();"/>
-                    <br>
-                    Removed duplication = {{ duplication }}
+
+                    <select class="form-control" style="height: 182px;" multiple="multiple">
+                        {% for name in username %}
+                            <option value="{{ name }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                    <p>With duplication = {{ count }}</p>
+                    <p>Without duplication = {{ total_count }}</p>
+                    <p>Duplication = {{ duplication }}</p>
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-12 col-md-9">
             <span class="fi-xwldx5-caret-solid mx-auto d-table">
                 <img id="prizePointer" style="position:relative;z-index: 100;"
                      src="{% static 'images/basic_pointer.png' %}" alt="V"/>
@@ -111,25 +136,25 @@
                             <span
                                     style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.335556em) rotate(-30.2015deg); transform-origin: center 6.62222em 0px;">T</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.338333em) rotate(-22.6635deg); transform-origin: center 6.62222em 0px;">a</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.338333em) rotate(-22.6635deg); transform-origin: center 6.62222em 0px;">a</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(-15.1473deg); transform-origin: center 6.62222em 0px;">p</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(-15.1473deg); transform-origin: center 6.62222em 0px;">p</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(-9.55137deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(-9.55137deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.221944em) rotate(-5.20447deg); transform-origin: center 6.62222em 0px;">t</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.221944em) rotate(-5.20447deg); transform-origin: center 6.62222em 0px;">t</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(1.00982deg); transform-origin: center 6.62222em 0px;">o</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(1.00982deg); transform-origin: center 6.62222em 0px;">o</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(6.60579deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166667em) rotate(6.60579deg); transform-origin: center 6.62222em 0px;">&nbsp;</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.305556em) rotate(11.8879deg); transform-origin: center 6.62222em 0px;">s</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.305556em) rotate(11.8879deg); transform-origin: center 6.62222em 0px;">s</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(19.0375deg); transform-origin: center 6.62222em 0px;">p</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(19.0375deg); transform-origin: center 6.62222em 0px;">p</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166389em) rotate(24.6304deg); transform-origin: center 6.62222em 0px;">i</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.166389em) rotate(24.6304deg); transform-origin: center 6.62222em 0px;">i</span>
                             <span
-                                style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(30.2232deg); transform-origin: center 6.62222em 0px;">n</span>
+                                    style="position: absolute; bottom: auto; left: 50%; transform: translateX(-0.333611em) rotate(30.2232deg); transform-origin: center 6.62222em 0px;">n</span>
                         </div>
                     </div>
                 </div>
@@ -157,7 +182,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pickedNameShowLabel"><span class="text-danger">AAAAAND THHHHE WINNNNNER IS!!!</span></h5>
+                    <h5 class="modal-title" id="pickedNameShowLabel"><span class="text-danger">AAAAAND THHHHE WINNNNNER IS!!!</span>
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -182,11 +208,14 @@
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/celery_progress.js' %}"></script>
+{% autoescape off %}
 <script>
     const canvasEl = document.querySelector('#canvasConfetti');
     const w = canvasEl.width = window.innerWidth;
     const h = canvasEl.height = window.innerHeight * 2;
 
+    let comments = {{ comments }};
     let wheelWinner = null;
     let pw1 = $("#pw1"), pw2 = $("#pw2"), pw3 = $("#pw3")
     let spinButton = $('#spin_button')
@@ -200,6 +229,7 @@
 
     let audio = new Audio("{% static 'sound/tick.mp3' %}");
 </script>
+{% endautoescape %}
 <script>
     function rgbToYIQ({r, g, b}) {
         return ((r * 299) + (g * 587) + (b * 114)) / 1000;
@@ -242,7 +272,7 @@
 </script>
 <script>
     let theWheel = new Winwheel({
-        'numSegments': "{{ count }}",
+        'numSegments': "{{ total_count }}",
         'outerRadius': 400,
         'innerRadius': 100,
         'textFontSize': parseInt({{ count }}) < 30 ? 24 : 12,
@@ -312,28 +342,24 @@
     }
 
     pickedNameModal.on('show.bs.modal', function (e) {
-        $("#modalBody").text(`The winner is ${wheelWinner}`);
-    })
-    pickedNameModal.on('hide.bs.modal', function (e) {
-        canvasConfetti.toggle();
-        canvasFireworks.toggle();
+        $("#modalBody").text(`The winner is ${wheelWinner}, with comment ${comments[wheelWinner]}`);
     })
 
 
     function powerSelected(powerLevel) {
         if (wheelSpinning === false) {
-            pw1.removeClass();
-            pw2.removeClass();
-            pw3.removeClass();
+            pw1.removeClass('pw1 text-dark');
+            pw2.removeClass('pw2 text-dark');
+            pw3.removeClass('pw3 text-dark');
 
             if (powerLevel >= 1) {
-                pw1.addClass('pw1');
+                pw1.addClass('pw1 text-dark');
             }
             if (powerLevel >= 2) {
-                pw2.addClass('pw2');
+                pw2.addClass('pw2 text-dark');
             }
             if (powerLevel >= 3) {
-                pw3.addClass('pw3');
+                pw3.addClass('pw3 text-dark');
             }
             wheelPower = powerLevel;
             spinButton.attr('src', "{% static 'images/spin_on.png' %}")
@@ -356,7 +382,7 @@
                 theWheel.animation.spins = 3;
             }
             spinButton.attr('src', "{% static 'images/spin_off.png' %}");
-            spinButton.removeClass()
+            spinButton.removeClass('clickable')
 
             theWheel.startAnimation();
             wheelSpinning = true;
@@ -375,14 +401,14 @@
         {% endfor %}
         theWheel.draw();
 
-        canvasConfetti.toggle();
-        canvasFireworks.toggle();
-        pw1.removeClass();
-        pw2.removeClass();
-        pw3.removeClass();
+        pw1.removeClass('pw1 text-dark');
+        pw2.removeClass('pw2 text-dark');
+        pw3.removeClass('pw3 text-dark');
         pickedNameModal.modal('hide');
 
         wheelSpinning = false;
+        canvasConfetti.toggle()
+        canvasFireworks.toggle()
     }
 
     function closeModal() {
